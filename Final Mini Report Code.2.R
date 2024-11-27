@@ -263,3 +263,103 @@ plot.igraph(network_initial_3, layout=network_layout_3)
 
 
 ##########################################################################
+
+
+'CVglasso'
+
+
+install.packages('CVglasso')
+library(CVglasso)
+# Load packages
+
+
+lam_seq <- seq(0.01, 0.5, length.out = 100)
+# Specify lamda sequence we want it to analyse
+
+CV_glasso <- CVglasso::CVglasso(X = flavin, S = S,
+                                K = 10, crit.cv = 'loglik',
+                                trace = 'none',
+                                lam.min.ratio = 1e-5,
+                                lam = lam_seq)
+# Perform 10 fold cross validation
+
+
+CV_glasso$Tuning[2]
+# Optimal Lambda we found is 0.1436364
+
+
+plot(CV_glasso, xlab = 'log10(rho)')
+# Plot of Cross-Validation Errors
+
+
+glasso_CV <- glasso::glasso(S, rho = CV_glasso$Tuning[2])
+# Perform glasso
+
+
+glasso_inv_CV <- glasso_CV$wi
+
+
+###
+'Heat map'
+
+
+colour_key <- colorRampPalette(c("blue", "white", "red"))(n = 1000)
+# Define colour key
+
+
+colnames(glasso_inv_CV) <- rownames(glasso_inv_CV) <- colnames(flavin)
+
+glasso_vis_CV <- glasso_inv_CV- diag(diag(glasso_inv_CV))
+
+
+glasso_vis_CV <- abs(glasso_vis_CV) / max(abs(glasso_vis_CV)) # mapping into [0,1]
+diag(glasso_vis_CV) <- -1 # to make the diagonal stand out visually
+
+
+glasso_vis_CV_long <- melt(glasso_vis_CV)
+
+
+ggplot(glasso_vis_CV_long, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradientn(
+    colors = colour_key,
+    limits = c(-1, 1),
+    name = " Colour Key"
+  )  + labs(x = "", y = "") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, size = 8),
+    axis.text.y = element_text(size = 8)
+  )
+# Heatmap for optimal Rho
+
+
+###
+'Undirected graph'
+
+
+igraph_options(vertex.size = 25,
+               vertex.color = "orange",
+               vertex.frame.color = 'black',
+               vertex.label.cex = 0.9,
+               vertex.label.color = "black",
+               edge.width = 1,
+               edge.color = "darkgrey")
+# Setting igraph options
+
+
+glasso_CV_graph <- glasso_inv_CV[5:15,5:15]
+
+
+network_initial <- graph.adjacency(abs(glasso_CV_graph), weighted=TRUE,
+                                     mode="undirected", diag=FALSE)
+# Undirected graph
+
+
+network_layout <- layout_in_circle(network_initial)
+# Specifies where the nodes go
+
+
+plot.igraph(network_initial, layout=network_layout)
+# Plots final graph
+
