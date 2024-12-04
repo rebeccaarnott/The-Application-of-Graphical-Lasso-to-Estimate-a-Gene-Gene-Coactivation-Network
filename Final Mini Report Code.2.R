@@ -312,8 +312,8 @@ colnames(glasso_inv_CV) <- rownames(glasso_inv_CV) <- colnames(flavin)
 glasso_vis_CV <- glasso_inv_CV- diag(diag(glasso_inv_CV))
 
 
-glasso_vis_CV <- abs(glasso_vis_CV) / max(abs(glasso_vis_CV)) # mapping into [0,1]
-diag(glasso_vis_CV) <- -1 # to make the diagonal stand out visually
+glasso_vis_CV <- abs(glasso_vis_CV) / max(abs(glasso_vis_CV)) 
+diag(glasso_vis_CV) <- -1 
 
 
 glasso_vis_CV_long <- melt(glasso_vis_CV)
@@ -345,7 +345,7 @@ igraph_options(vertex.size = 25,
                vertex.label.color = "black",
                edge.width = 1,
                edge.color = "darkgrey")
-# Setting igraph options
+
 
 
 glasso_CV_graph <- glasso_inv_CV[5:15,5:15]
@@ -353,13 +353,14 @@ glasso_CV_graph <- glasso_inv_CV[5:15,5:15]
 
 network_initial <- graph.adjacency(abs(glasso_CV_graph), weighted=TRUE,
                                      mode="undirected", diag=FALSE)
-# Undirected graph
+
 
 
 network_layout <- layout_in_circle(network_initial)
-# Specifies where the nodes go
+
 
 
 plot.igraph(network_initial, layout=network_layout)
-# Plots final graph
+
+
 
