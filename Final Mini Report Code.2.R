@@ -11,7 +11,7 @@
 set.seed(1)
 
 
-load('Documents/Year 4/High Dimensional Statistics Practicals/riboflavin.data.rda')
+load('riboflavin.data.rda')
 # Load our data
 
 
