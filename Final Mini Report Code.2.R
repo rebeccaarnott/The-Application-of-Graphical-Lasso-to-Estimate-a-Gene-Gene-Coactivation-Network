@@ -97,8 +97,8 @@ colour_key <- colorRampPalette(c("blue", "white", "red"))(n = 1000)
 flavin_vis_2 <- flavin_inv_2- diag(diag(flavin_inv_2))
 
 
-flavin_vis_2 <- abs(flavin_vis_2) / max(abs(flavin_vis_2)) # mapping into [0,1]
-diag(flavin_vis_2) <- -1 # to make the diagonal stand out visually
+flavin_vis_2 <- abs(flavin_vis_2) / max(abs(flavin_vis_2)) 
+diag(flavin_vis_2) <- -1 
 
 
 flavin_vis_2_long <- melt(flavin_vis_2)
@@ -127,8 +127,8 @@ ggplot(flavin_vis_2_long, aes(x = Var1, y = Var2, fill = value)) +
 flavin_vis_1 <- flavin_inv_1- diag(diag(flavin_inv_1))
 
 
-flavin_vis_1 <- abs(flavin_vis_1) / max(abs(flavin_vis_1)) # mapping into [0,1]
-diag(flavin_vis_1) <- -1 # to make the diagonal stand out visually
+flavin_vis_1 <- abs(flavin_vis_1) / max(abs(flavin_vis_1)) 
+diag(flavin_vis_1) <- -1 
 
 
 flavin_vis_1_long <- melt(flavin_vis_1)
@@ -153,8 +153,8 @@ ggplot(flavin_vis_1_long, aes(x = Var1, y = Var2, fill = value)) +
 flavin_vis_3 <- flavin_inv_3- diag(diag(flavin_inv_3))
 
 
-flavin_vis_3 <- abs(flavin_vis_3) / max(abs(flavin_vis_3)) # mapping into [0,1]
-diag(flavin_vis_3) <- -1 # to make the diagonal stand out visually
+flavin_vis_3 <- abs(flavin_vis_3) / max(abs(flavin_vis_3)) 
+diag(flavin_vis_3) <- -1 
 
 
 flavin_vis_3_long <- melt(flavin_vis_3)
